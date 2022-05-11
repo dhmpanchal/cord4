@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container my-3">
+    <h1>My Todos</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <a href="{% url 'add_todo' %}" class="btn btn-primary float-right" role="button">Add Todos</a>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if todos %}
+                            {% for value in todos %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{value.title}}</td>
+                                <td>{{value.status}}</td>
+                                <td>
+                                    <a href="{% url 'edit_todo' value.id %}" class="btn btn-primary mx-1">Edit</a>
+                                    <a href="{% url 'delete_todo' value.id %}" class="btn btn-danger mx-1">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="4">No todos found</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
